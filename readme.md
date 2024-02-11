@@ -62,6 +62,21 @@ The following environment variables are required to configure the integration:
 - `POLL_INTERVAL_SECONDS`: The interval (in seconds) at which the script polls the Uber Eats API for order status updates.
 - `UBER_EATS_API_TIMEOUT_SECONDS`: The timeout (in seconds) for requests to the Uber Eats API.
 
+## Detailed Instructions for Using the Integration
+
+To fully utilize the Uber Eats Home Assistant integration, follow these detailed instructions:
+
+1. **Create an Input Text Entity**: In Home Assistant, create an [input text entity](https://www.home-assistant.io/integrations/input_text/) where you will store the Uber Eats order share URL. You can make the entity ID something like `input_text.uber_eats_order_url` (from the name: Uber Eats Order Url).
+
+2. **Create a Custom Sensor**: Create a custom template sensor in Home Assistant to display the order status. See the [Home Assistant Requirements](#home-assistant-requirements) section for an example.
+
+3. **Run the Docker Container**: Start the Docker container with the environment variables set for your Home Assistant instance. For more details on running the Docker container, see the [Running the Docker Container](#running-the-docker-container) section.
+
+4. **Add the Order Share URL**: Once you place an order with Uber Eats, you will receive a share URL. Copy this URL and paste it into the input text entity you created in Home Assistant.
+   You can use any other methods to edit this field, like a [Telegram integration](https://www.home-assistant.io/integrations/telegram_bot/#event-triggering), get creative 😎.
+
+5. **Set Up Automations**: With the sensor now displaying the order status, you can create automations in Home Assistant based on the possible values such as "Preparing", "EnrouteToEater", "Delivered", and "Unknown". For example, you could notify yourself when the order is en route to you or send a message when the order has been delivered.
+
 ## Deploying on your own Dockerhub
 
 Many of us run our own Dockerhubs, these are my basic instructions, edit them for your hub:
