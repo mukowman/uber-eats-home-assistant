@@ -77,6 +77,15 @@ To fully utilize the Uber Eats Home Assistant integration, follow these detailed
 
 5. **Set Up Automations**: With the sensor now displaying the order status, you can create automations in Home Assistant based on the possible values such as "Preparing", "EnrouteToEater", "Delivered", and "Unknown". For example, you could notify yourself when the order is en route to you or send a message when the order has been delivered.
 
+## Possible States of the Uber Eats `SENSOR_ENTITY_ID` Sensor
+
+| State            | Meaning                                                                                     |
+| ---------------- | ------------------------------------------------------------------------------------------- |
+| `Preparing`      | The restaurant is preparing the food for the order.                                         |
+| `EnrouteToEater` | The delivery person has picked up the food and is on the way to deliver it to the customer. |
+| `Delivered`      | The food has been successfully delivered to the customer.                                   |
+| `Unknown`        | The status of the order cannot be determined.                                               |
+
 ## Deploying on your own Dockerhub
 
 Many of us run our own Dockerhubs, these are my basic instructions, edit them for your hub:
