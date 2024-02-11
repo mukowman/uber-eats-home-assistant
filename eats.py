@@ -79,20 +79,24 @@ def get_order_status_api(uber_eats_share_url: str) -> str:
         data), timeout=UBER_EATS_API_TIMEOUT_SECONDS)
 
     if response.status_code != 200:
-        raise ValueError(
-            f"Request failed with status code {response.status_code}.")
-
+        logging.error("Uber Eats API failed with status code: %s",
+                      response.status_code)
+        return "Unkown"
     json_response = response.json()
-    order_phase = json_response['data']['orders'][0]['orderInfo']['orderPhase']
 
-    if order_phase == 'COMPLETED':
-        return "Delivered"
-    elif order_phase == 'ACTIVE':
-        if "Heading your way" in response.text:
-            # Sometimes Uber doesn't update the analytics field, so we search for this magic text.
-            return "EnrouteToEater"
-        return json_response['data']['orders'][0]['analytics']['data']['order_status']
-    else:
+    try:
+        order_phase = json_response['data']['orders'][0]['orderInfo']['orderPhase']
+
+        if order_phase == 'COMPLETED':
+            return "Delivered"
+        if order_phase == 'ACTIVE':
+            if "Heading your way" in response.text:
+                # Sometimes Uber doesn't update the analytics field, so we search for this
+                # magic text.
+                return "EnrouteToEater"
+            return json_response['data']['orders'][0]['analytics']['data']['order_status']
+    except ValueError:
+        logging.exception("Unable to get order status.")
         return "Unknown"
 
 
